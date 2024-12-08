@@ -48,13 +48,6 @@ Visitez notre [site](https://www.vigilantia.fr) nous sommes fièrement basés à
   - `unicodedata`
   - `logging`
 
-Installez les bibliothèques requises avec :
-
-```bash
-pip install -r requirements.txt
-```
-
----
 
 ## Installation 🔧
 
@@ -65,13 +58,7 @@ git clone https://github.com/vigilantia/siret-extractor.git
 cd siret-extractor
 ```
 
-2. Installez les dépendances :
-
-```bash
-pip install -r requirements.txt
-```
-
-3. Tout est prêt ! 🎉
+2. Tout est prêt ! 🎉
 
 ---
 
