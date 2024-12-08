@@ -4,7 +4,7 @@
 ![License](https://img.shields.io/badge/License-MIT-green.svg) 📜
 ![Contributions](https://img.shields.io/badge/Contributions-Bienvenues-brightgreen.svg) 🤝
 
-Un puissant script Python pour extraire des numéros SIRET ou SIREN directement depuis les sites web des entreprises. 🚀  
+Un modeste script Python pour extraire des numéros SIRET ou SIREN directement depuis les sites web des entreprises. 🚀  
 Conçu par **Vigilantia**, cet outil vise à simplifier les vérifications de conformité et les validations d'entreprise. 🛠️  
 Le script explore intelligemment les sites web, examine les sitemaps et identifie les pages pertinentes pour extraire les identifiants légaux dans un format structuré.📂  
 Visitez notre [site](https://www.vigilantia.fr) nous sommes fièrement basés à Metz 🇫🇷
