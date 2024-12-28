@@ -6,7 +6,7 @@
 
 Un modeste script Python pour extraire des numéros SIRET ou SIREN directement depuis les sites web des entreprises. 🚀  
 Conçu par **Vigilantia**, cet outil vise à simplifier les vérifications de conformité et les validations d'entreprise. 🛠️  
-Le script explore intelligemment les sites web, examine les sitemaps et identifie les pages pertinentes pour extraire les identifiants légaux dans un format structuré.📂  
+Avec la version **1.2**, nous avons amélioré la précision de la détection et ajouté la prise en charge des technologies web modernes. 🌟  
 Visitez notre [site](https://www.vigilantia.fr) nous sommes fièrement basés à Metz 🇫🇷
 
 ---
@@ -28,13 +28,26 @@ Visitez notre [site](https://www.vigilantia.fr) nous sommes fièrement basés à
 
 ## Fonctionnalités 🌟
 
-- **Crawling Intelligent :** Extrait les numéros SIRET/SIREN en utilisant les sitemaps et les explorations internes. 🤖
-- **Identification Basée sur Regex :** Utilise des motifs pour localiser et valider avec précision les identifiants. 🔍
-- **Correspondance par Mot-Clé :** Filtre les URLs de manière intelligente en fonction de termes légaux prédéfinis. 📚
-- **Entrée et Sortie CSV :** Gère facilement des domaines en vrac avec une entrée/sortie au format CSV. 📑
-- **Convivial pour les Débutants :** Entièrement documenté avec des exemples pour une utilisation dans Spyder et VS Code. 🧑‍💻
-- **Open-Source :** Entièrement Open-Source et inspiré d'un repo de [Beta-Gouv](https://github.com/betagouv/signalconso-siret-extractor)  🤝. 
+- **Détection Avancée :**
+  - Identification précise des pages légales (ex. "Mentions légales", "CGU").
+  - Reconnaissance intelligente des chemins localisés (`/fr/terms`, `/mentions-legales`).  
 
+- **Exploration Optimisée :**
+  - Exploration priorisée : détection des URLs pertinentes dans le sitemap ou le footer.
+  - Gestion des sites modernes utilisant des frameworks JavaScript (Nuxt.js, React).
+
+- **Extraction de Données :**
+  - Numéros SIRET/SIREN et emails, même dans des formats complexes ou obfusqués.
+  - Association logique entre les identifiants et les entreprises détectées.
+
+- **Technologies Modernes :**
+  - Support des sites avec contenu dynamique grâce à Selenium.
+  - Exploration contextuelle des frames et iframes.
+
+- **Sortie Structurée :**
+  - Résultats au format CSV pour une intégration facile avec d'autres outils.
+
+- **Open-Source :** Entièrement Open-Source et inspiré d'un repo de [Beta-Gouv](https://github.com/betagouv/signalconso-siret-extractor)  🤝. 
 
 ---
 
@@ -43,10 +56,9 @@ Visitez notre [site](https://www.vigilantia.fr) nous sommes fièrement basés à
 - **Python** : 3.9+
 - **Bibliothèques** : 
   - `requests`
+  - `beautifulsoup4`
   - `lxml`
-  - `csv`
-  - `unicodedata`
-  - `logging`
+  - `selenium`
 
 
 ## Installation 🔧
@@ -58,7 +70,12 @@ git clone https://github.com/vigilantia/siret-extractor.git
 cd siret-extractor
 ```
 
-2. Tout est prêt ! 🎉
+2. Installez les dépendances :
+```bash
+pip install -r requirements.txt
+```
+
+3. Tout est prêt ! 🎉
 
 ---
 
@@ -126,24 +143,22 @@ example.org,98765432109876
 
 Le script suit une approche pas à pas :
 
-1. **Déterminer l'URL de Base :** 
-   - Teste les schémas courants (par exemple, `https://example.com`, `http://example.com`).
-   - Tente de corriger les erreurs courantes (par exemple, `wwwexample.com` devient `www.example.com`). ✏️
+1. **Traitement de l'URL de Base :**
+   - Correction automatique des URLs mal formées.
+   - Tentatives sur plusieurs variantes (`https://`, `http://`, `www.`).
 
-2. **Récupérer le Sitemap :**
-   - Vérifie le fichier `robots.txt` pour une URL de sitemap. 📜
-   - Par défaut, utilise `example.com/sitemap.xml` si non spécifié. 📂
+2. **Récupération du Sitemap :**
+   - Analyse du fichier `robots.txt` pour localiser le sitemap.
+   - Si absent, tente d’accéder directement à `domain.com/sitemap.xml`.
 
-3. **Analyser le Sitemap :**
-   - Extrait récursivement les URLs du sitemap et des indexes de sitemap. 🔗
-   - Filtre les URLs en fonction des mots-clés (par exemple, `mentions-legales`, `privacy-policy`).
+3. **Exploration des Pages Internes :**
+   - Exploration intelligente des liens internes, avec priorité donnée aux footers.
 
-4. **Explorer les Liens Internes :**
-   - Si aucun sitemap ou candidats, explore la page d'accueil pour des liens internes correspondant aux mots-clés. 🔍
+4. **Extraction des Identifiants :**
+   - Utilisation de regex avancés pour capturer les numéros et emails.
 
-5. **Extraire les SIRET/SIREN :**
-   - Extrait les identifiants en utilisant des motifs regex. ✨
-   - Ignore les identifiants courants ou prédéfinis (via des variables d'environnement).
+5. **Gestion des Erreurs :**
+   - Journalisation des erreurs (par ex. domaine invalide, contenu inaccessible).
 
 ---
 
@@ -154,6 +169,25 @@ Le script suit une approche pas à pas :
 3. Validez les résultats dans `output.csv`. ✅
 
 ---
+
+
+## **Optimisations et Sécurité** 🔐 ( à venir ... ) 
+
+### **Optimisations :**
+- **Crawling Efficace :**
+  - Filtrage par mots-clés pour prioriser les pages pertinentes.
+  - Réduction du temps d’exploration avec des limites configurables.
+
+- **Gestion des Erreurs :**
+  - Log détaillé des échecs (connexion, URL introuvable).
+  - Mécanismes de reprise pour éviter les interruptions.
+
+### **Sécurité :**
+- Rotation de l’agent utilisateur pour éviter les blocages.
+- Gestion des proxies pour préserver l’anonymat.
+
+---
+
 
 ## Processus de Développement 🛠️
 
@@ -188,6 +222,12 @@ A : Les erreurs telles que les problèmes de connexion ou les domaines invalides
 **Q : Puis-je utiliser ce script pour des sites non français ?**  
 A : Le script est optimisé pour les identifiants légaux français, mais peut être adapté à d'autres motifs. 🌍
 
+**Q : Le script peut-il fonctionner sur des sites non français ?**
+A : Oui, mais les modèles de détection sont optimisés pour les entreprises françaises.
+
+**Q : Puis-je modifier les paramètres d’exploration ?**
+A : Oui, les variables comme `MAX_DEPTH` et `TIMEOUT` sont configurables.
+
 ---
 
 ## Contribuer 🤝
@@ -200,3 +240,4 @@ Nous accueillons les contributions ! 🎉 Veuillez forker le dépôt, apporter v
 
 Ce projet est sous licence MIT. Consultez le fichier LICENSE pour plus de détails.
 
+**Vigilantia** – Développé à Metz avec passion. 🇫🇷
